@@ -7,6 +7,14 @@ defmodule AdderServerTest do
     AdderServer.add(pid, 3)
     assert AdderServer.state(pid) == 13
   end
+
+  test "adding clooney correctly" do
+    IO.inspect AdderClooneyServer.module_info
+    # IO.inspect AdderClooneyServer.__info__(:functions)
+
+    {:ok, pid} = AdderClooneyServer.start(10)
+    assert AdderServer.state(pid) == 10
+  end
 end
 
 defmodule AdderServer do
@@ -29,4 +37,10 @@ defmodule AdderServer do
   def handle_call(:state, _from, state) do
     {:reply, state, state}
   end
+end
+
+defmodule AdderClooneyServer do
+  use Clooney
+
+  start(1)
 end
