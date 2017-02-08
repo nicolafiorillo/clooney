@@ -9,7 +9,7 @@ defmodule AdderServerTest do
   end
 
   test "adding clooney correctly" do
-    IO.inspect AdderClooneyServer.module_info
+    # IO.inspect AdderClooneyServer.module_info
     # IO.inspect AdderClooneyServer.__info__(:functions)
 
     {:ok, pid} = AdderClooneyServer.start(10)
