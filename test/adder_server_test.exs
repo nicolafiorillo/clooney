@@ -8,18 +8,25 @@ defmodule AdderServerTest do
     assert AdderServer.state(pid) == 13
   end
 
-  test "adding clooney correctly" do
+  test "clooney add numbers correctly" do
     # IO.inspect AdderClooneyServer.module_info
-    IO.inspect AdderClooneyServer.__info__(:functions)
+    # IO.inspect AdderClooneyServer.__info__(:functions)
 
     {:ok, pid} = AdderClooneyServer.start(10)
     AdderClooneyServer.add(pid, 3)
     assert AdderClooneyServer.state(pid) == 13
+  end
 
+  test "clooney add lists correctly" do
+    {:ok, pid} = AdderClooneyServer.start([10])
+    AdderClooneyServer.append(pid, [12, 14])
+    assert AdderClooneyServer.state(pid) == [10, 12, 14]
+  end
 
-    {:ok, pid2} = AdderClooneyServer.start(1)
-    AdderClooneyServer.add(pid2, 4)
-    assert AdderClooneyServer.state(pid2) == 5
+  test "clooney as_string correctly" do
+    {:ok, pid} = AdderClooneyServer.start(1)
+    assert "2" == AdderClooneyServer.as_string(pid, 2)
+    assert AdderClooneyServer.state(pid) == "2"
   end
 end
 
@@ -50,5 +57,13 @@ defmodule AdderClooneyServer do
 
   defmessage add(pid, value) do
     state(pid) + value
+  end
+
+  defmessage append(pid, value) do
+    state(pid) ++ value
+  end
+
+  defmessage as_string(pid, value) do
+    "#{inspect value}"
   end
 end
