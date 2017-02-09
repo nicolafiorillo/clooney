@@ -19,10 +19,12 @@ defmodule Clooney do
   end
 
   defmacro defmessage(func = {name, _, arguments}, do: block) do
-    params = Enum.map(arguments, fn {param, _, _} -> param end)
+    # params = Enum.map(arguments, fn {param, _, _} -> param end)
 
     quote do
-      def unquote(name)(pid, unquote_splicing(arguments)) do
+      def unquote(name)(unquote_splicing(arguments)) do
+        pid = List.first(unquote(arguments))
+
         # IO.inspect pid
         # IO.inspect "params: #{inspect unquote(params)}"
         # IO.inspect "arguments: #{inspect unquote(arguments)}"

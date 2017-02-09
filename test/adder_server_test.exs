@@ -14,7 +14,12 @@ defmodule AdderServerTest do
 
     {:ok, pid} = AdderClooneyServer.start(10)
     AdderClooneyServer.add(pid, 3)
-    assert AdderServer.state(pid) == 10
+    assert AdderClooneyServer.state(pid) == 13
+
+
+    {:ok, pid2} = AdderClooneyServer.start(1)
+    AdderClooneyServer.add(pid2, 4)
+    assert AdderClooneyServer.state(pid2) == 5
   end
 end
 
@@ -43,7 +48,7 @@ end
 defmodule AdderClooneyServer do
   use Clooney
 
-  defmessage add(value) do
-    value
+  defmessage add(pid, value) do
+    state(pid) + value
   end
 end
